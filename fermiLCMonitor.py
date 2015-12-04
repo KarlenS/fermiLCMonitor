@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
-import wget
 import urllib2
 import argparse
-import astropy.pyfits as pf
+from astropy.io import fits as pf
 from bs4 import BeautifulSoup
 from time import gmtime, strftime
 
@@ -39,18 +38,21 @@ def main():
 
 
     lc = fermiLC()
-    soup = BeautifulSoup(page)
+    page = lc.getPageSource()
+    soup = BeautifulSoup(page.read(),"lxml")
 
     linkbase = 'http://fermi.gsfc.nasa.gov'
 
     for link in soup.find_all('a'):
         if link.get_text() == 'Daily Light Curve Fits File':
-            url = linkbase + link.get('href'))
-            lcDailyFile = lc.downloadLCfits(url)
+            print 'found daily'
+            #url = linkbase + link.get('href'))
+            #lcDailyFile = lc.downloadLCfits(url)
             #need to break things out for each source
         if link.get_text() == 'Weekly Light Curve Fits File':
-            url = linkbase + link.get('href'))
-            lcWeeklyfile = lc.downloadLCfits(url)
+            #url = linkbase + link.get('href'))
+            #lcWeeklyfile = lc.downloadLCfits(url)
+            print 'found weekly'
        
        # if (link.get('href')[0:6]) == 'source':
        #     print "Source: ", link.get('href')[7:]
@@ -58,5 +60,5 @@ def main():
         #if so grab the 
 
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     main()
