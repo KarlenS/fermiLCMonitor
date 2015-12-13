@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin:/python
 
 import urllib2,requests
 import argparse
@@ -33,7 +33,7 @@ def main():
 
     #parsing arguments
     parser = argparse.ArgumentParser(description='Checks the official Fermi-LAT light curves for signs of variability')
-    parser.add_argument('--cuts', nargs='?', default='daily', help="Takes either 'daily' or 'weekly' for medium or soft analysis")
+    parser.add_argument('--binning', nargs='?', default='daily', help="Takes either 'daily' or 'weekly")
     args = parser.parse_args()
 
 
