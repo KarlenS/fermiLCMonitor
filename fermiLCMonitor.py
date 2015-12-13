@@ -70,6 +70,9 @@ def main():
         if link.get_text() == 'Weekly Light Curve Fits File':
             url = linkbase + link.get('href')
             lcWeeklyfile = lc.getLCfits(url)
+
+            #opening up the fits file
+            data_daily = lcWeeklyFile[1].data
        
 if __name__ == '__main__':
     main()
