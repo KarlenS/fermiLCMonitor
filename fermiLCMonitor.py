@@ -1,6 +1,6 @@
 #!/usr/bin:/python
 
-import urllib2,requests
+import urllib2
 import argparse
 from astropy.io import fits as pf
 import numpy as np
@@ -39,7 +39,7 @@ def main():
 
     lc = fermiLC()
     page = lc.getPageSource()
-    soup = BeautifulSoup(page.read(),"lxml")
+    soup = BeautifulSoup(page.read(),"html.parser")
 
     linkbase = 'http://fermi.gsfc.nasa.gov'
 
@@ -65,14 +65,26 @@ def main():
             plt.errorbar(start_time,flux_100_300000,yerr=error_100_300000,fmt='o')
             plt.show()
 
-            break
-           
         if link.get_text() == 'Weekly Light Curve Fits File':
             url = linkbase + link.get('href')
-            lcWeeklyfile = lc.getLCfits(url)
+            lcWeeklyFile = lc.getLCfits(url)
 
             #opening up the fits file
-            data_daily = lcWeeklyFile[1].data
+            data_weekly = lcWeeklyFile[1].data
        
+            #grab the light curve
+            start_time = data_weekly['START']
+            end_time = data_weekly['STOP']
+            flux_100_300000 = data_weekly['FLUX_100_300000']
+            error_100_300000 = data_weekly['ERROR_100_300000']
+
+            weights = np.divide(1.,error_100_300000)
+            print data_weekly['NAME'][0],np.average(flux_100_300000,weights=weights)
+
+
+            #plotting the light curve,,, make this side-by-side
+            plt.errorbar(start_time,flux_100_300000,yerr=error_100_300000,fmt='o')
+            plt.show()
+
 if __name__ == '__main__':
     main()
