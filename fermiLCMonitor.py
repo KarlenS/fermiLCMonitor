@@ -39,7 +39,8 @@ def main():
 
     lc = fermiLC()
     page = lc.getPageSource()
-    soup = BeautifulSoup(page.read(),"lxml")
+    soup = BeautifulSoup(page.read(),"html.parser")
+    #soup = BeautifulSoup(page.read(),"lxml")
 
     linkbase = 'http://fermi.gsfc.nasa.gov'
 
